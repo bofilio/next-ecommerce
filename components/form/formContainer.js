@@ -7,7 +7,7 @@ export default function FormContainer({ children }) {
         .formContainer {
           height: 100vh;
           width: 60vw;
-          margin-top: 10%;
+          margin-top: 5%;
           display: flex;
           flex-direction: column;
           align-items: center;

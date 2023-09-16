@@ -37,40 +37,43 @@
 
 <br/>
 <div align="center">
-  <img src="https://github.com/RafaelGoulartB/Ecommerce-Quantum/blob/master/Ecommerce.jpg" width="720">
+  <img src="https://github.com/RafaelGoulartB/Ecommerce-BZ/blob/master/Ecommerce.jpg" width="720">
 </div>
 
 ---
 
 # :pushpin: Tabela de Conteúdo
 
-* [Site de Demostração](#eyes-site-de-demostração) 
-* [Tecnologias](#computer-tecnologias)
-* [Funcionalidades](#rocket-funcionalidades)
-* [Como rodar](#construction_worker-como-rodar)
-* [Encontrou um bug? Ou está faltando uma feature?](#bug-problemas)
-* [Contribuindo](#tada-contribuindo)
-* [Licencia](#closed_book-licencia)
+- [Site de Demostração](#eyes-site-de-demostração)
+- [Tecnologias](#computer-tecnologias)
+- [Funcionalidades](#rocket-funcionalidades)
+- [Como rodar](#construction_worker-como-rodar)
+- [Encontrou um bug? Ou está faltando uma feature?](#bug-problemas)
+- [Contribuindo](#tada-contribuindo)
+- [Licencia](#closed_book-licencia)
 
-## 📥 Layout disponivel para download em:  
+## 📥 Layout disponivel para download em:
+
 <p align="center">
-    <a title="Acess Figma Web" href="https://www.figma.com/file/fDLkOXAz4k3ILWb8PoDivJZF/E-Commerce-Quantum?node-id=0%3A1">
+    <a title="Acess Figma Web" href="https://www.figma.com/file/fDLkOXAz4k3ILWb8PoDivJZF/E-Commerce-BZ?node-id=0%3A1">
         <img alt="Direct Download" src="https://img.shields.io/badge/Acess Figma Web-black?style=flat-square&logo=figma&logoColor=red" width="200px" />
     </a>
 </p>
 
 # :eyes: Site de Demostração
-No site de demostração pode estar faltando algumas funcionalidades, clene e rode o projeto para uma experiencia completa.    
-👉  demo: https://quantum-ecommerce.now.sh/
+
+No site de demostração pode estar faltando algumas funcionalidades, clene e rode o projeto para uma experiencia completa.  
+👉 demo: https://BZ-ecommerce.now.sh/
 
 # :computer: Tecnologias
+
 Esse projeto foi feito utilizando as seguintes tecnologias:
 
-* [Next.js](https://nextjs.org/) - Para o SSR e controle de rotas  
-* [GraphQL](https://graphql.org/) - Para linguagem de query     
-* [Apollo](https://www.apollographql.com/) - Para o cliente/servidor graphql  
-* [Knex](https://knexjs.org/) - ORM   
-* [Vercel](https://vercel.com/) - Para hostear o site      
+- [Next.js](https://nextjs.org/) - Para o SSR e controle de rotas
+- [GraphQL](https://graphql.org/) - Para linguagem de query
+- [Apollo](https://www.apollographql.com/) - Para o cliente/servidor graphql
+- [Knex](https://knexjs.org/) - ORM
+- [Vercel](https://vercel.com/) - Para hostear o site
 
 # :rocket: Funcionalidades
 
@@ -86,29 +89,37 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 - Review de Produtos
 
 # :construction_worker: Como rodar
+
 ### Renomear arquivo de variaveis de ambiente
+
 Renomear `.env.local-exemple` para `.env.local`
+
 ### Instalar Dependencias
+
 ```bash
 yarn install
 ```
+
 ### Configurar banco de dados
+
 ```bash
 # Criar DB usando migrations
 yarn knex:migrate
 
 # Rodar seeds para popular o banco de dados
-yarn knex:seed 
+yarn knex:seed
 ```
+
 ### Rodar Aplicação
-```bash 
-yarn dev 
+
+```bash
+yarn dev
 ```
+
 Acesse [http://localhost:3000](http://localhost:3000) para ver o resultado.
 <br>
 <br>
 Acesse [http://localhost:3000/api/graphql](http://localhost:3000/api/graphql) para ver a documentação da API.
-
 
 # :bug: Problemas
 
@@ -124,6 +135,5 @@ Lançado em 2020 :closed_book: Licencia
 
 Made with love by [Rafael Goulart](https://github.com/RafaelGoulartB) 🚀.
 Esse projeto esta sobre [MIT license](./LICENSE).
-
 
 Dê uma ⭐️ se esse projeto te ajudou!

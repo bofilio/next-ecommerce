@@ -26,20 +26,20 @@ export default function Home() {
 
   if ((error || !data?.productsById.length) && !loading) {
     return (
-      <Page title="Quantum E-commerce - Products">
+      <Page title="BZ E-commerce - Products">
         <ErrorAlert message="This product is not found!"></ErrorAlert>
       </Page>
     );
   } else if (loading) {
     return (
-      <Page title="Quantum E-commerce - Products">
+      <Page title="BZ E-commerce - Products">
         <p>Loading...</p>
       </Page>
     );
   }
 
   return (
-    <Page title="Quantum E-commerce - Products">
+    <Page title="BZ E-commerce - Products">
       <article>
         <div className="top-buttons">
           <button

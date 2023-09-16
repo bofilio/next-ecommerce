@@ -48,7 +48,7 @@ export default function SignUp() {
   }
 
   return (
-    <PageContainer title="Quantum E-commerce - Sign Up">
+    <PageContainer title="BZ E-commerce - Sign Up">
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <h3 className="formTitle">sign up</h3>
@@ -85,6 +85,7 @@ export default function SignUp() {
             />
 
             <Button type="submit" title="Sign Up" />
+            <Button type="button" title="Sign up width Google" bg="#DB4437" />
           </InputContainer>
         </form>
 
@@ -105,7 +106,7 @@ export default function SignUp() {
           letter-spacing: 1.65px;
           color: #b2b2b2;
           text-transform: uppercase;
-          margin-bottom: 84px;
+          margin-bottom: 32px;
         }
         .switchForm {
           color: #b2b2b2;

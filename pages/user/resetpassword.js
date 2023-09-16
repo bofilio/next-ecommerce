@@ -21,7 +21,7 @@ export default function Login() {
   }
 
   return (
-    <PageContainer title="Quantum E-commerce - Reset Password">
+    <PageContainer title="BZ E-commerce - Reset Password">
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <h3 className="formTitle">Reset Password</h3>

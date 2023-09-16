@@ -37,40 +37,43 @@
 
 <br />
 <div align="center">
-  <img src="https://github.com/RafaelGoulartB/Ecommerce-Quantum/blob/master/Ecommerce.jpg" width="720">
+  <img src="https://github.com/RafaelGoulartB/Ecommerce-BZ/blob/master/Ecommerce.jpg" width="720">
 </div>
 
 ---
 
 # :pushpin: Table of Contents
 
-* [Demo Website](#eyes-demo-website)
-* [Technologies](#computer-technologies)
-* [Features](#rocket-features)
-* [How to run](#construction_worker-how-to-run)
-* [Found a bug? Missing a specific feature?](#bug-issues)
-* [Contributing](#tada-contributing)
-* [License](#closed_book-license)
+- [Demo Website](#eyes-demo-website)
+- [Technologies](#computer-technologies)
+- [Features](#rocket-features)
+- [How to run](#construction_worker-how-to-run)
+- [Found a bug? Missing a specific feature?](#bug-issues)
+- [Contributing](#tada-contributing)
+- [License](#closed_book-license)
 
 ## 📥 Layout available at:
+
 <p align="center">
-    <a title="Acess Figma Web" href="https://www.figma.com/file/fDLkOXAz4k3ILWb8PoDivJZF/E-Commerce-Quantum?node-id=0%3A1">
+    <a title="Acess Figma Web" href="https://www.figma.com/file/fDLkOXAz4k3ILWb8PoDivJZF/E-Commerce-BZ?node-id=0%3A1">
         <img alt="Direct Download" src="https://img.shields.io/badge/Acess Figma Web-black?style=flat-square&logo=figma&logoColor=red" width="200px" />
     </a>
 </p>
 
 # :eyes: Demo Website
+
 The demo website can be missing some features, clone and run the project to a full experience. <br>
-👉  demo: https://quantum-ecommerce.now.sh/
+👉 demo: https://BZ-ecommerce.now.sh/
 
 # :computer: Technologies
+
 This project was made using the follow technologies:
 
-* [Next.js](https://nextjs.org/) - To SSR and routes control     
-* [GraphQL](https://graphql.org/) - To query language     
-* [Apollo](https://www.apollographql.com/) - To graphql server and client       
-* [Knex](https://knexjs.org/) - ORM   
-* [Vercel](https://vercel.com/) - To deploy website     
+- [Next.js](https://nextjs.org/) - To SSR and routes control
+- [GraphQL](https://graphql.org/) - To query language
+- [Apollo](https://www.apollographql.com/) - To graphql server and client
+- [Knex](https://knexjs.org/) - ORM
+- [Vercel](https://vercel.com/) - To deploy website
 
 # :rocket: Features
 
@@ -85,27 +88,35 @@ This project was made using the follow technologies:
 - Checkout page
 - Payment with Paypal
 - Review Products
-  
+
 # :construction_worker: How to run
+
 **You need to install [Node.js](https://nodejs.org/en/download/) and [Yarn](https://yarnpkg.com/) first, then:**
 
 ### Rename env file
+
 Rename `.env.local-exemple` to `.env.local`
+
 ### Install Dependencies
+
 ```bash
 yarn install
 ```
+
 ### Set up database
+
 ```bash
 # Create DB using migrations
 yarn knex:migrate
 
 # Run seeds to populate database
-yarn knex:seed 
+yarn knex:seed
 ```
+
 ### Run Aplication
-```bash 
-yarn dev 
+
+```bash
+yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -113,26 +124,22 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 <br>
 Open [http://localhost:3000/api/graphql](http://localhost:3000/api/graphql) with your browser to run queries or to see docs of API.
 
-
 # :bug: Issues
 
 Feel free to **file a new issue** with a respective title and description on the the [Next.Js Ecommerce](https://github.com/RafaelGoulartB/next-ecommerce/issues) repository. If you already found a solution to your problem, **i would love to review your pull request**!
 
-
 ---
-
 
 [⬆ Back to Top](#pushpin-table-of-contents)
 
-
-
 # :tada: Contributing
+
 First of all, thank you for being interested in helping out, your time is always appreciated in every way. :100:
 
 Here's some tips:
 
-* Check the [issues page](https://github.com/RafaelGoulartB/next-ecommerce/issues) for already opened issues (or maybe even closed ones) that might already address your question/bug/feature request.
-* Feature requests are welcomed! Provide some details on why it would be helpful for you and others, explain how you're using bull-board and if possible even some screenshots if you are willing to mock something!
+- Check the [issues page](https://github.com/RafaelGoulartB/next-ecommerce/issues) for already opened issues (or maybe even closed ones) that might already address your question/bug/feature request.
+- Feature requests are welcomed! Provide some details on why it would be helpful for you and others, explain how you're using bull-board and if possible even some screenshots if you are willing to mock something!
 
 Check out the [contributing](./CONTRIBUTING.md) page to see the best places to file issues, start discussions and begin contributing.
 

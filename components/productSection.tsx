@@ -1,9 +1,16 @@
+import * as React from 'react';
 import AsideCategories from './asideCategories';
 import PromoCard from './promoCard';
 import HeaderBarProducts from './headerBarProducts';
 import Products from './products';
 
-export default function ProductSection({ category }) {
+type Props = {
+  category: string;
+  search?: string;
+}
+export default function ProductSection(props: Props) {
+  const { category, search } = props
+  const [sorting, setSorting] = React.useState('-created');
   return (
     <section id="product">
       <aside>
@@ -11,8 +18,8 @@ export default function ProductSection({ category }) {
         <PromoCard />
       </aside>
       <div className="main">
-        <HeaderBarProducts />
-        <Products category={category} />
+        <HeaderBarProducts setSorting={setSorting} sorting={sorting} />
+        <Products category={category} sorting={sorting} search={search} />
       </div>
 
       <style jsx>{`

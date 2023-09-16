@@ -11,10 +11,20 @@ import { CART_COUNT } from '../../apollo/client/queries';
 
 import Logo from '../logo';
 import SearchBox from '../search-box';
+import { useAllCategories } from '../../react-query/query_hooks';
+import { useStoreState } from '../../state/store';
+import { useRouter } from 'next/router';
 
 export default function HeaderDesktop({ viewer }) {
   const cart = useQuery(CART_COUNT);
-
+  const { topCategory, setTopCategory } = useStoreState();
+  const { data: categories, isLoading, error } = useAllCategories();
+  const router = useRouter();
+  function handleTopCategoryChange(e) {
+    setTopCategory(e.target.value);
+    if (e.target.value === '') router.push('/');
+    else router.push(`/category/${e.target.value}`);
+  }
   return (
     <>
       <div className="header header-top">
@@ -66,18 +76,20 @@ export default function HeaderDesktop({ viewer }) {
       <div className="header header-bottom">
         <div className="all-categories-box">
           <FaBars color="#d8d8d8" />
-          <select name="categories" id="categories">
-            <option value="All Categories" selected>
+          <select
+            name="categories"
+            id="categories"
+            onChange={handleTopCategoryChange}
+            value={topCategory}
+          >
+            <option value="" selected>
               All Categories
             </option>
-            <option value="#">Desktop</option>
-            <option value="#">Smartphone</option>
-            <option value="#">Watches</option>
-            <option value="#">Games</option>
-            <option value="#">Laptop</option>
-            <option value="#">Keyboards</option>
-            <option value="#">TV & Video</option>
-            <option value="#">Accessories</option>
+            {categories?.map((cat) => (
+              <option key={cat.id} value={cat.name}>
+                {cat.label}
+              </option>
+            ))}
           </select>
         </div>
 

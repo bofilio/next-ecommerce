@@ -30,6 +30,7 @@ export default function Input({ type, name, placeholder, onChange, value }) {
           padding-bottom: 1.25em;
           padding-top: 1.25em;
           padding-left: 32px;
+          box-sizing: border-box;
         }
         input ::placeholder {
           color: #b2b2b2;

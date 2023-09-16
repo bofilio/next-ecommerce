@@ -9,11 +9,17 @@ import {
 import StarRatings from 'react-star-ratings';
 import { toggleCart, toggleWishlist } from '../utils/toggleProductStates';
 import { CART, WISHLIST } from '../apollo/client/queries';
+import { pb } from '../pocketbase';
+import { ProductRecord } from '../react-query/types';
 
-export default function ProductSection({ id, name, rating, img_url, price }) {
+type Props = {
+  data: ProductRecord
+}
+export default function ProductSection(props: Props) {
+  const { id, name, rating, images, price } = props.data
   const cart = useQuery(CART);
   const wishlist = useQuery(WISHLIST);
-
+  const img_url = pb.getFileUrl(props.data, images[0])
   return (
     <article>
       <div className="top-buttons">

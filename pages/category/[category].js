@@ -5,11 +5,11 @@ import ProductSection from '../../components/productSection';
 
 export default function Category() {
   const router = useRouter();
-  const { category } = router.query;
+  const { category, search } = router.query;
 
   return (
     <Page>
-      <ProductSection category={category} />
+      <ProductSection category={category} search={search} />
     </Page>
   );
 }

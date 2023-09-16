@@ -2,17 +2,20 @@ import { sortProductSectionVar } from '../apollo/client/cache';
 import { useQuery } from '@apollo/client';
 import { SORT_PRODUCT_SECTION } from '../apollo/client/queries';
 
-export default function HeaderBarProducts() {
+export default function HeaderBarProducts({ setSorting, sorting }) {
   const { data } = useQuery(SORT_PRODUCT_SECTION);
 
+  function handleLatestProductsClick() {
+    setSorting('-created');
+  }
   function handlePopularProductsClick() {
-    sortProductSectionVar(['rating', 'DESC']);
+    setSorting('-rating');
   }
   function handleLowPriceProductsClick() {
-    sortProductSectionVar(['price', 'ASC']);
+    setSorting('price');
   }
   function handleHighPriceProductsClick() {
-    sortProductSectionVar(['price', 'DESC']);
+    setSorting('-price');
   }
 
   return (
@@ -20,36 +23,28 @@ export default function HeaderBarProducts() {
       <div className="sort-list">
         <a
           id="popular-products"
-          className={
-            data.sortProductSection[0] === 'rating' &&
-            data.sortProductSection[1] === 'DESC'
-              ? 'active'
-              : ''
-          }
+          className={sorting === '-created' ? 'active' : ''}
+          onClick={handleLatestProductsClick}
+        >
+          Latest products
+        </a>
+        <a
+          id="popular-products"
+          className={sorting === '-rating' ? 'active' : ''}
           onClick={handlePopularProductsClick}
         >
           Popular products
         </a>
         <a
           id="low-price"
-          className={
-            data.sortProductSection[0] === 'price' &&
-            data.sortProductSection[1] === 'ASC'
-              ? 'active'
-              : ''
-          }
+          className={sorting === 'price' ? 'active' : ''}
           onClick={handleLowPriceProductsClick}
         >
           Low price
         </a>
         <a
           id="high-price"
-          className={
-            data.sortProductSection[0] === 'price' &&
-            data.sortProductSection[1] === 'DESC'
-              ? 'active'
-              : ''
-          }
+          className={sorting === '-price' ? 'active' : ''}
           onClick={handleHighPriceProductsClick}
         >
           High price

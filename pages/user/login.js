@@ -41,7 +41,7 @@ export default function Login() {
   }
 
   return (
-    <PageContainer title="Quantum E-commerce - Login">
+    <PageContainer title="BZ E-commerce - Login">
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <h3 className="formTitle">login</h3>
@@ -65,6 +65,7 @@ export default function Login() {
             />
 
             <Button type="submit" title="Login" />
+            <Button type="button" title="Sign in width Google" bg="#DB4437" />
           </InputContainer>
         </form>
 

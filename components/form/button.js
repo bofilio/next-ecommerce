@@ -1,4 +1,4 @@
-export default function Button({ type, title }) {
+export default function Button({ type, title, bg }) {
   return (
     <>
       <button type={type}>{title}</button>
@@ -6,16 +6,16 @@ export default function Button({ type, title }) {
       <style jsx>{`
         button {
           width: 100%;
-          margin-top: 32px;
-          background-color: #1875f0;
+          background-color: ${bg ?? '#1875f0'};
           color: #ffffff;
+          margin-top: 1rem;
           border: none;
-          width: 50%;
           font-size: 18px;
           border-radius: 6px;
           padding-bottom: 1em;
           padding-top: 1em;
           align-self: center;
+          cursor: pointer;
         }
         @media (max-width: 1000px) {
           button {
