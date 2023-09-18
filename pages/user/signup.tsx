@@ -11,44 +11,47 @@ import Button from '../../components/form/button';
 import Input from '../../components/form/input';
 import InputContainer from '../../components/form/InputContainer';
 import FormContainer from '../../components/form/formContainer';
+import { useSignUp, useSignUpWithOAuth2 } from '../../react-query/mutation_hooks';
 
 export default function SignUp() {
-  const [signUp] = useMutation(SIGN_UP);
   const router = useRouter();
-
+  const { mutate: signUp, isLoading: signingUp } = useSignUp();
+  const { mutate: GoogleSign, isLoading: googleSigning } = useSignUpWithOAuth2("google")
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirm_password, setConfirm_password] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [msgError, setMsgError] = useState('');
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
-
-    if (password != confirm_password) {
+    if (password != passwordConfirm) {
       setMsgError('The passwords do not match');
       setPassword('');
-      setConfirm_password('');
+      setPasswordConfirm('');
       return;
     }
 
     try {
-      const result = await signUp({
-        variables: {
+      signUp(
+        {
           name: name.trim(),
           email: email.trim(),
           password: password.trim(),
+          passwordConfirm: passwordConfirm.trim(),
         },
-      });
-
-      router.push('/user/login');
+        {
+          onSuccess: () => router.push('/user/login'),
+          onError: (err: any) => setMsgError(getErrorMessage(err)),
+        }
+      );
     } catch (error) {
       setMsgError(getErrorMessage(error));
     }
   }
 
   return (
-    <PageContainer title="BZ E-commerce - Sign Up">
+    <PageContainer title="BZ E-commerce - Sign Up" description="">
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <h3 className="formTitle">sign up</h3>
@@ -59,33 +62,37 @@ export default function SignUp() {
               type="text"
               name="name"
               placeholder="Name"
-              onChange={(value) => setName(value)}
+              onChange={(value: string) => setName(value)}
               value={name}
             />
             <Input
               type="email"
               name="email"
               placeholder="Email"
-              onChange={(value) => setEmail(value)}
+              onChange={(value: string) => setEmail(value)}
               value={email}
             />
             <Input
               type="password"
               name="password"
               placeholder="Password"
-              onChange={(value) => setPassword(value)}
+              onChange={(value: string) => setPassword(value)}
               value={password}
             />
             <Input
               type="password"
-              name="confirm_password"
+              name="passwordConfirm"
               placeholder="Repeat Password"
-              onChange={(value) => setConfirm_password(value)}
-              value={confirm_password}
+              onChange={(value: string) => setPasswordConfirm(value)}
+              value={passwordConfirm}
             />
 
             <Button type="submit" title="Sign Up" />
-            <Button type="button" title="Sign up width Google" bg="#DB4437" />
+            <Button
+              type="button"
+              onClick={() => GoogleSign()}
+              title="Sign up width Google"
+              bg="#DB4437" />
           </InputContainer>
         </form>
 
@@ -113,7 +120,8 @@ export default function SignUp() {
           margin-top: 12px;
           font-weight: 500;
         }
-      `}</style>
+      `}
+      </style>
     </PageContainer>
   );
 }

@@ -1,12 +1,20 @@
 import { useInfiniteQuery, useQuery } from 'react-query';
 import { KEYS } from './query_keys';
-import { getAllCategories, getProducts } from './query_functions';
+import {
+  GetMyWishlist,
+  GetOneProduct,
+  getAllCategories,
+  getProducts,
+} from './query_functions';
 import { productfilter } from './types';
+import { pb } from '../pocketbase';
+import { useRouter } from 'next/router';
 
+/************ category */
 export function useAllCategories(parent?: string) {
   return useQuery([...KEYS.categories, parent], () => getAllCategories(parent));
 }
-
+/************ product */
 export function useProducts(filter: productfilter) {
   return useInfiniteQuery(
     [...KEYS.products, ...Object.values(filter)],
@@ -22,4 +30,11 @@ export function useProducts(filter: productfilter) {
       },
     }
   );
+}
+export function useOneProduct(id: string) {
+  return useQuery([...KEYS.products, id], () => GetOneProduct(id));
+}
+/******** wishlist */
+export function useMywishlist() {
+  return useQuery(KEYS.wichlist, GetMyWishlist);
 }

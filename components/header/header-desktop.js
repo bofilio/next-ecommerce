@@ -11,12 +11,14 @@ import { CART_COUNT } from '../../apollo/client/queries';
 
 import Logo from '../logo';
 import SearchBox from '../search-box';
-import { useAllCategories } from '../../react-query/query_hooks';
+import { useAllCategories, useMywishlist } from '../../react-query/query_hooks';
 import { useStoreState } from '../../state/store';
 import { useRouter } from 'next/router';
 
-export default function HeaderDesktop({ viewer }) {
-  const cart = useQuery(CART_COUNT);
+export default function HeaderDesktop() {
+  const cart = useStoreState((store) => store.cart);
+  const user = useStoreState((store) => store.user);
+  const { data: wishlist } = useMywishlist();
   const { topCategory, setTopCategory } = useStoreState();
   const { data: categories, isLoading, error } = useAllCategories();
   const router = useRouter();
@@ -35,20 +37,24 @@ export default function HeaderDesktop({ viewer }) {
         <div className="nav-buttons">
           <Link href="/cart">
             <a className="nav-buttons-items">
-              <FaShoppingCart color="#808080" />
+              <FaShoppingCart color={cart.length ? '#4682A9' : '#808080'} />
               <p>
-                <sup className="items-total">{cart.data.cart.cartCount}</sup>{' '}
+                <sup className="items-total">{cart?.length ?? 0}</sup>
                 Items
               </p>
             </a>
           </Link>
           <Link href="/wishlist">
             <a className="nav-buttons-wishlist">
-              <FaRegHeart color="#808080" />
-              <p>Wishlist</p>
+              <FaRegHeart color={wishlist?.length ? '#FFBFBF' : '#808080'} />
+              <p>
+                {' '}
+                <sup className="items-total">{wishlist?.length ?? 0}</sup>
+                Wishlist
+              </p>
             </a>
           </Link>
-          {!viewer && (
+          {!user && (
             <Link href="/user/login">
               <a className="nav-buttons-signin">
                 <FaUser color="#808080" />
@@ -56,12 +62,12 @@ export default function HeaderDesktop({ viewer }) {
               </a>
             </Link>
           )}
-          {viewer && (
+          {user && (
             <>
               <Link href="/profile">
                 <a className="nav-buttons-profile">
                   <FaUser color="#808080" />
-                  <p>{viewer.name}</p>
+                  <p>{user.name}</p>
                 </a>
               </Link>
               <Link href="/user/signout">
@@ -148,6 +154,7 @@ export default function HeaderDesktop({ viewer }) {
         .nav-buttons .items-total {
           font-size: 12px;
           align-self: flex-end;
+          margin-right: 4px;
         }
         .nav-buttons .nav-buttons-signout {
           margin-left: 12px;

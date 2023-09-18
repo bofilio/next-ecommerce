@@ -6,42 +6,31 @@ import FinishOrderCart from '../components/finishOrderCart';
 import ProductItem from '../components/productItem';
 import { CART, PRODUCTS_BY_IDS } from '../apollo/client/queries';
 import ProductsGrid from '../components/productsGrid';
+import { useStoreState } from '../state/store';
 
 export default function Profile() {
-  const cart = useQuery(CART);
+  const cart = useStoreState((store) => store.cart);
 
-  const { data, loading, error } = useQuery(PRODUCTS_BY_IDS, {
-    variables: {
-      id: cart.data.cart.products,
-    },
-  });
-
-  if (loading) return <></>;
-
-  if (error)
+  if (!cart.length)
     return (
-      <Page>
+      <Page title="Cart" description="">
         <Title title="Cart" />
         <EmptySection name="cart" />
       </Page>
     );
 
   return (
-    <Page>
+    <Page title="Cart" description="">
       <Title title="Cart" />
       <section className="cart">
-        <aside>{data.productsById.length != 0 && <FinishOrderCart />}</aside>
+        <aside>{cart.length !== 0 && <FinishOrderCart />}</aside>
         <div className="main">
-          {!data?.productsById.length && <EmptySection name="cart" />}
+          {!cart.length && <EmptySection name="cart" />}
           <ProductsGrid>
-            {data?.productsById.map((product) => (
+            {cart.map((product) => (
               <ProductItem
                 key={product.id}
-                id={product.id}
-                name={product.name}
-                rating={product.rating}
-                img_url={product.img_url}
-                price={product.price}
+                data={product}
               />
             ))}
           </ProductsGrid>

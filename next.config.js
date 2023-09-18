@@ -1,6 +1,6 @@
 module.exports = {
-  pageExtensions: ['js'],
+  pageExtensions: ['js', 'jsx', 'tsx'],
   images: {
-    domains: ['m.media-amazon.com'],
+    domains: ['m.media-amazon.com', '127.0.0.1:8090'],
   },
 };

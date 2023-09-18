@@ -1,26 +1,19 @@
 import { useQuery } from '@apollo/client';
 import { CART, PRODUCTS_BY_IDS_PRICE } from '../apollo/client/queries';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useStoreState } from '../state/store';
 
 export default function FinishOrderCart() {
   const [finalPrice, setFinalPrice] = useState(0);
-  const cart = useQuery(CART);
-
-  const { data, loading, error } = useQuery(PRODUCTS_BY_IDS_PRICE, {
-    variables: {
-      id: cart.data.cart.products,
-    },
-  });
-
-  if (loading) return <></>;
-
-  if (error) return <></>;
-
+  const cart = useStoreState((store) => store.cart);
+  const totalPrice = useMemo(() =>
+    cart.reduce((count, prod) => count + prod.price, 0)
+  );
   return (
     <div className="finishOrder">
       <div className="info">
-        <p className="total">Total({cart?.data.cart.cartCount} Item):</p>
-        <p className="price">$ {finalPrice}</p>
+        <p className="total">Total({cart.length} Item):</p>
+        <p className="price">$ {totalPrice}</p>
       </div>
       <button>Finish Order</button>
       <style jsx>{`

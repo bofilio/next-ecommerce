@@ -44,9 +44,11 @@ export default function SearchBox() {
             name="search"
             placeholder="Search goods"
           />
-          <button type="submit" id='clear-button' onClick={handleClear}>
-            <FiXCircle color="#989898" size="14px" />
-          </button>
+          {
+            <button type="submit" id='clear-button' onClick={handleClear}>
+              <FiXCircle color="#989898" size="14px" />
+            </button>
+          }
         </form>
 
 

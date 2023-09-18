@@ -6,28 +6,35 @@ import AsideCategories from '../components/asideCategories';
 import { WISHLIST, PRODUCTS_BY_IDS } from '../apollo/client/queries';
 import ProductsGrid from '../components/productsGrid';
 import ProductItem from '../components/productItem';
+import { useMywishlist } from '../react-query/query_hooks';
+import LoadingPage from '../components/loading-page';
+import { useRouter } from 'next/router';
+import { useStoreState } from '../state/store';
+import { useEffect } from 'react';
+import { pb } from '../pocketbase';
 
 export default function Wishlist() {
-  const wishlist = useQuery(WISHLIST);
+  const { data: wishlist, isLoading, isError } = useMywishlist()
+  const router = useRouter()
+  console.log({ wishlist });
 
-  const { data, loading, error } = useQuery(PRODUCTS_BY_IDS, {
-    variables: {
-      id: wishlist.data.wishlist.products,
-    },
-  });
+  useEffect(() => {
+    if (!pb.authStore.isValid)
+      router.push('/user/login?redirect=/wishlist')
+  }, [])
 
-  if (loading) return <></>;
+  if (isLoading) return <LoadingPage />;
 
-  if (error || !data?.productsById.length)
+  if (isError || !wishlist?.length)
     return (
-      <Page>
+      <Page title="wishlist" description="">
         <Title title="Wishlist" />
         <EmptySection name="wishlist" />
       </Page>
     );
 
   return (
-    <Page>
+    <Page title="wishlist" description="">
       <Title title="Wishlist" />
       <section className="wishlist">
         <aside>
@@ -35,14 +42,10 @@ export default function Wishlist() {
         </aside>
         <div className="main">
           <ProductsGrid>
-            {data?.productsById.map((product) => (
+            {wishlist?.map((product) => (
               <ProductItem
                 key={product.id}
-                id={product.id}
-                name={product.name}
-                rating={product.rating}
-                img_url={product.img_url}
-                price={product.price}
+                data={product}
               />
             ))}
           </ProductsGrid>

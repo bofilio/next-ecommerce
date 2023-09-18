@@ -1,6 +1,12 @@
 import { pb } from '../pocketbase';
-import { CategoryRecord, ProductRecord, productfilter } from './types';
+import {
+  CategoryRecord,
+  ProductRecord,
+  UserRecord,
+  productfilter,
+} from './types';
 
+/***********************************category */
 export async function getAllCategories(parent?: string) {
   if (!parent)
     return await pb.collection('categories').getFullList<CategoryRecord>({
@@ -13,7 +19,7 @@ export async function getAllCategories(parent?: string) {
       filter: `parent.name = "${parent}" `,
     });
 }
-
+/*************************************** product */
 export async function getProducts(filter: productfilter) {
   const { category, page, perPage, sort = '-created', search = '' } = filter;
   if (category)
@@ -30,4 +36,17 @@ export async function getProducts(filter: productfilter) {
         sort,
         filter: `name ~ "${search}"`,
       });
+}
+export async function GetOneProduct(id: string) {
+  return await pb.collection('products').getOne<ProductRecord>(id);
+}
+
+/********************************* wishlist */
+export async function GetMyWishlist() {
+  const user = await pb
+    .collection('users')
+    .getOne<UserRecord>(pb.authStore.model?.id, {
+      expand: 'wishlist',
+    });
+  return user.expand?.wishlist ?? [];
 }

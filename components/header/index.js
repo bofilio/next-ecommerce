@@ -3,10 +3,10 @@ import { VIEWER } from '../../apollo/client/queries';
 
 import HeaderMobile from './header-mobile';
 import HeaderDesktop from './header-desktop';
+import { useStoreState } from '../../state/store';
 
 export default function Header() {
-  const { data, loading, error } = useQuery(VIEWER);
-  const viewer = data?.viewer;
+  const viewer = useStoreState((store) => store.user);
 
   return (
     <header>
@@ -15,7 +15,7 @@ export default function Header() {
       </nav>
 
       <nav id="desktop">
-        <HeaderDesktop viewer={viewer} />
+        <HeaderDesktop />
       </nav>
 
       <style jsx>{`

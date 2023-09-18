@@ -2,13 +2,13 @@ import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import SearchBox from '../search-box';
 import { GET_DRAWER_STATE } from '../../apollo/client/queries';
+import { useStoreState } from '../../state/store';
 
 export default function SideDrawer({ closeDrawer }) {
-  const { data, loading, error } = useQuery(GET_DRAWER_STATE);
-
+  const isDrawerOpen = useStoreState((store) => store.sideDrowerOpen);
   return (
     <div
-      className={`side-drawer ${data?.isDrawerOpen ? 'show' : 'hide'}`}
+      className={`side-drawer ${isDrawerOpen ? 'show' : 'hide'}`}
       id="side-drawer"
     >
       <button className="close-drawer" onClick={closeDrawer}>

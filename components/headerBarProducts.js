@@ -1,10 +1,4 @@
-import { sortProductSectionVar } from '../apollo/client/cache';
-import { useQuery } from '@apollo/client';
-import { SORT_PRODUCT_SECTION } from '../apollo/client/queries';
-
 export default function HeaderBarProducts({ setSorting, sorting }) {
-  const { data } = useQuery(SORT_PRODUCT_SECTION);
-
   function handleLatestProductsClick() {
     setSorting('-created');
   }

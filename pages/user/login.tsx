@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import PageContainer from '../../components/page-container';
 import Link from 'next/link';
-import { SIGN_IN } from '../../apollo/client/mutations';
-import { useMutation, useApolloClient } from '@apollo/client';
 import { getErrorMessage } from '../../lib/form';
 
 import AlertError from '../../components/alerts/error';
@@ -11,37 +9,38 @@ import Button from '../../components/form/button';
 import Input from '../../components/form/input';
 import InputContainer from '../../components/form/InputContainer';
 import FormContainer from '../../components/form/formContainer';
+import { useSignIn } from '../../react-query/mutation_hooks';
 
 export default function Login() {
-  const client = useApolloClient();
-  const [signIn] = useMutation(SIGN_IN);
+  const { mutate: signIn, isLoading: isSigning } = useSignIn()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [msgError, setMsgError] = useState('');
 
   const router = useRouter();
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
 
     try {
-      await client.resetStore();
-      const { data } = await signIn({
-        variables: {
-          email: email.trim(),
-          password: password.trim(),
-        },
-      });
-      if (data.signIn.user) {
-        await router.push('/');
-      }
+      signIn({
+        email: email.trim(),
+        password: password.trim(),
+      },
+        {
+          onSuccess: () => {
+            router.push('/');
+          }
+        }
+      );
+
     } catch (error) {
       setMsgError(getErrorMessage(error));
     }
   }
 
   return (
-    <PageContainer title="BZ E-commerce - Login">
+    <PageContainer title="BZ E-commerce - Login" description="">
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <h3 className="formTitle">login</h3>
@@ -53,14 +52,14 @@ export default function Login() {
               type="email"
               name="email"
               placeholder="Email"
-              onChange={(value) => setEmail(value)}
+              onChange={(value: string) => setEmail(value)}
               value={email}
             />
             <Input
               type="password"
               name="password"
               placeholder="Password"
-              onChange={(value) => setPassword(value)}
+              onChange={(value: string) => setPassword(value)}
               value={password}
             />
 
