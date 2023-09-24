@@ -58,14 +58,14 @@ export default function ProductSection(props: Props) {
 
       <div className="price">
         <p className="price-value">${price}</p>
-        {/* <button className="add-cart" onClick={() => toggleCart(props.data)}>
-          {cart.map(prod => prod.id).includes(id) && (
+        <button className="add-cart" onClick={() => toggleCart({ product: props.data, qt: 1 })}>
+          {cart.map(item => item.product.id).includes(id) && (
             <FaCartArrowDown size={18} color="#EF9595" />
           )}
-          {!cart.map(prod => prod.id).includes(id) && (
+          {!cart.map(item => item.product.id).includes(id) && (
             <FaCartPlus size={18} color="#4682A9" />
           )}
-          </button>*/}
+        </button>
       </div>
 
       <style jsx>{`

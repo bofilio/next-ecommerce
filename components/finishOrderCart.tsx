@@ -1,5 +1,3 @@
-import { useQuery } from '@apollo/client';
-import { CART, PRODUCTS_BY_IDS_PRICE } from '../apollo/client/queries';
 import { useMemo, useState } from 'react';
 import { useStoreState } from '../state/store';
 
@@ -7,15 +5,19 @@ export default function FinishOrderCart() {
   const [finalPrice, setFinalPrice] = useState(0);
   const cart = useStoreState((store) => store.cart);
   const totalPrice = useMemo(() =>
-    cart.reduce((count, prod) => count + prod.price, 0)
-  );
+    cart.reduce((count, item) => Math.round(count + item.product.price * item.qt), 0)
+    , [cart]);
+  const totalItems = useMemo(() =>
+    cart.reduce((count, item) => count + item.qt, 0)
+    , [cart]);
   return (
     <div className="finishOrder">
       <div className="info">
-        <p className="total">Total({cart.length} Item):</p>
+        <p className="total">Total({totalItems} Item):</p>
         <p className="price">$ {totalPrice}</p>
       </div>
       <button>Finish Order</button>
+
       <style jsx>{`
         .finishOrder {
           display: flex;
@@ -57,6 +59,7 @@ export default function FinishOrderCart() {
           font-weight: bold;
           font-size: 15px;
           transition: 0.7s;
+          cursor:pointer;
         }
         .finishOrder button:focus {
           outline: none;

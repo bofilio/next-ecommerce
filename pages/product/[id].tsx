@@ -26,9 +26,15 @@ export default function Home() {
   const { mutate: toggleWishlist } = useToggleWishList(id as string)
   const { data: product, isLoading, isError } = useOneProduct(id as string);
   const imgs_urls = product ? product.images.map(img => pb.getFileUrl(product, img)) : null
-  const InCart = useMemo(() => cart.map(prod => prod.id).includes(id as string), [cart.length])
+  const InCart = useMemo(() => cart.map(item => item.product.id).includes(id as string), [cart.length])
   const InwishList = useMemo(() => wishlist?.map(prod => prod.id)?.includes(id as string), [wishlist?.length])
 
+  function orderNow() {
+    if (!product) return
+    if (!InCart)
+      toggleCart({ product: product, qt: 1 })
+    router.push('/cart')
+  }
 
   if ((isError || !product) && !isLoading) {
     return (
@@ -82,7 +88,7 @@ export default function Home() {
             <Button
               className="add-cart"
               title={InCart ? 'Remove' : 'Add'}
-              onClick={() => toggleCart(product)}
+              onClick={() => toggleCart({ product: product, qt: 1 })}
               leftIcon={InCart ? <FaCartArrowDown size={18} /> : <FaCartPlus size={18} />}
               bg={InCart ? "#252B48" : undefined}
             />
@@ -91,6 +97,7 @@ export default function Home() {
               className="add-cart"
               title={'Order Now'}
               bg="#F94C10"
+              onClick={orderNow}
             />
           </div>
 

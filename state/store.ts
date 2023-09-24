@@ -3,6 +3,7 @@ import { ProductRecord, UserRecord } from '../react-query/types';
 import { pb } from '../pocketbase';
 import { userInfo } from 'os';
 
+type CartItem = { product: ProductRecord; qt: number };
 type Store = {
   user: UserRecord | null | undefined;
   topCategory: string;
@@ -10,8 +11,10 @@ type Store = {
   setTopCategory: (cat: string) => void;
   setUser: (user?: UserRecord | null) => void;
   toggleDrawer: () => void;
-  cart: ProductRecord[];
-  toggleCart: (prod: ProductRecord) => void;
+  cart: CartItem[];
+  toggleCart: (item: CartItem) => void;
+  IncreaseQt: (id: string) => void;
+  decreaseQt: (id: string) => void;
 };
 export const useStoreState = create<Store>((set) => ({
   user: undefined,
@@ -23,11 +26,27 @@ export const useStoreState = create<Store>((set) => ({
   setUser: (user) => set((state) => ({ ...state, user: user })),
   toggleDrawer: () =>
     set((state) => ({ ...state, sideDrowerOpen: !state.sideDrowerOpen })),
-  toggleCart: (prod: ProductRecord) =>
+  toggleCart: (newItem: CartItem) =>
     set((state) => {
-      const new_cart = state.cart.filter((p) => p.id !== prod.id);
+      const new_cart = state.cart.filter(
+        (item) => item.product.id !== newItem.product.id
+      );
       if (new_cart.length === state.cart.length)
-        return { ...state, cart: [...new_cart, prod] };
+        return { ...state, cart: [...new_cart, newItem] };
       return { ...state, cart: new_cart };
+    }),
+  IncreaseQt: (id: string) =>
+    set((state) => ({
+      ...state,
+      cart: state.cart.map((item) =>
+        item.product.id !== id ? item : { ...item, qt: item.qt + 1 }
+      ),
+    })),
+  decreaseQt: (id: string) =>
+    set((state) => {
+      const newCart = state.cart.map((item) =>
+        item.product.id !== id ? item : { ...item, qt: item.qt - 1 }
+      );
+      return { ...state, cart: newCart.filter((item) => item.qt > 0) };
     }),
 }));
