@@ -110,7 +110,7 @@ export default function HeaderDesktop() {
             <a>Collections</a>
           </Link>
           <Link href="#">
-            <a>Bestselling</a>
+            <a>Top Selling</a>
           </Link>
         </nav>
 

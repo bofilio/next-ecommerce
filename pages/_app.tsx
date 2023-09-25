@@ -7,7 +7,7 @@ import { useStoreState } from '../state/store';
 import { initUserFromLocalStorage } from '../react-query/mutations';
 import LoadingPage from '../components/loading-page';
 import { ReactQueryDevtools } from 'react-query/devtools';
-
+import { Toaster } from 'react-hot-toast';
 const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: any) {
   const setUser = useStoreState((state) => state.setUser);
@@ -22,11 +22,9 @@ export default function App({ Component, pageProps }: any) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <>
-        <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </>
-
+      <Component {...pageProps} />
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster />
     </QueryClientProvider>
   );
 }

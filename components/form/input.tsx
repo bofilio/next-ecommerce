@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { DetailedHTMLProps, InputHTMLAttributes, useState } from 'react';
 
-export default function Input({ type, name, placeholder, onChange, value }) {
-  function handleChange(event) {
+type Props = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+  handleChange: (value: string) => void
+}
+export default function Input(props: Props) {
+  const { handleChange, name, type, placeholder, value, ...rest } = props
+  function OnChange(event: any) {
     const { value } = event.target;
-    onChange(value);
+    handleChange?.(value);
   }
 
   return (
@@ -12,8 +16,9 @@ export default function Input({ type, name, placeholder, onChange, value }) {
         type={type}
         name={name}
         placeholder={placeholder}
-        onChange={handleChange}
+        onChange={OnChange}
         value={value}
+        {...rest}
       />
 
       <style jsx>{`

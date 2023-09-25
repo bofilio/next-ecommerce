@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PageContainer from '../../components/page-container';
 import Link from 'next/link';
@@ -9,35 +9,36 @@ import Button from '../../components/form/button';
 import Input from '../../components/form/input';
 import InputContainer from '../../components/form/InputContainer';
 import FormContainer from '../../components/form/formContainer';
-import { useSignIn } from '../../react-query/mutation_hooks';
+import { useSignIn, useSignUpWithOAuth2 } from '../../react-query/mutation_hooks';
+import { useStoreState } from '../../state/store';
 
 export default function Login() {
   const { mutate: signIn, isLoading: isSigning } = useSignIn()
+  const { mutate: googleSignIn, isLoading: isGooglesigning } = useSignUpWithOAuth2()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [msgError, setMsgError] = useState('');
-
+  const user = useStoreState(store => store.user)
   const router = useRouter();
-
+  function handlegoogleSignin() {
+    googleSignIn("google",
+      {
+        onSuccess: () => router.push('/')
+      })
+  }
   async function handleSubmit(e: any) {
     e.preventDefault();
-
-    try {
-      signIn({
-        email: email.trim(),
-        password: password.trim(),
-      },
-        {
-          onSuccess: () => {
-            router.push('/');
-          }
-        }
-      );
-
-    } catch (error) {
-      setMsgError(getErrorMessage(error));
-    }
+    signIn({
+      email: email.trim(),
+      password: password.trim(),
+    },
+      {
+        onSuccess: () => router.push('/')
+      }
+    );
   }
+  useEffect(() => {
+    if (user) router.push("/")
+  }, [])
 
   return (
     <PageContainer title="BZ E-commerce - Login" description="">
@@ -45,26 +46,29 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <h3 className="formTitle">login</h3>
 
-          {msgError && <AlertError message={msgError} />}
-
           <InputContainer>
             <Input
               type="email"
               name="email"
               placeholder="Email"
-              onChange={(value: string) => setEmail(value)}
+              handleChange={(value: string) => setEmail(value)}
               value={email}
             />
             <Input
               type="password"
               name="password"
               placeholder="Password"
-              onChange={(value: string) => setPassword(value)}
+              handleChange={(value: string) => setPassword(value)}
               value={password}
             />
 
             <Button type="submit" title="Login" />
-            <Button type="button" title="Sign in width Google" bg="#DB4437" />
+            <Button
+              type="button"
+              title="Sign in width Google"
+              bg="#DB4437"
+              onClick={handlegoogleSignin}
+            />
           </InputContainer>
         </form>
 

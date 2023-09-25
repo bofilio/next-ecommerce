@@ -90,8 +90,8 @@ export default function HeaderBarProducts({ setSorting, sorting }) {
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding-left: 24px;
-            padding-right: 24px;
+            padding-left: 16px;
+            padding-right: 16px;
           }
           .header .sort-list a {
             font-size: 12px;

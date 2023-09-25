@@ -8,9 +8,12 @@ import ProductsGrid from '../components/productsGrid';
 import { useStoreState } from '../state/store';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { useState } from 'react';
+import { useCreateOrder } from '../react-query/mutation_hooks';
+import { forEachField } from 'graphql-tools';
 
-export default function Profile() {
-  const { cart, decreaseQt, IncreaseQt } = useStoreState();
+export default function Cart() {
+  const { cart, decreaseQt, IncreaseQt, user } = useStoreState();
+
   if (!cart.length)
     return (
       <Page title="Cart" description="">

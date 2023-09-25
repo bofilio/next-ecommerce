@@ -7,6 +7,7 @@ export type User = {
   avatar?: string;
   verified: boolean;
   wishlist: string[];
+  phone?: string;
 };
 export type UserRecord = User &
   RecordModel & {
@@ -17,6 +18,7 @@ export type UserRecord = User &
 export type SignUpRequest = {
   name: string;
   email: string;
+  phone: string;
   password: string;
   passwordConfirm: string;
 };
@@ -51,3 +53,11 @@ export type productfilter = {
   search?: string;
 };
 /**************************************** */
+export type Order = {
+  product: string;
+  qt: number;
+  phone: string;
+  user?: string;
+  status: 'pending' | 'ready' | 'comming' | 'finihsed' | 'canceled';
+};
+export type OrderRecord = Order & RecordModel;

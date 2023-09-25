@@ -9,19 +9,21 @@ import Button from '../../components/form/button';
 import Input from '../../components/form/input';
 import InputContainer from '../../components/form/InputContainer';
 import FormContainer from '../../components/form/formContainer';
+import { useRequestPasswordReset } from '../../react-query/mutation_hooks';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [msgError, setMsgError] = useState('');
 
   const router = useRouter();
-
-  async function handleSubmit(e) {
+  const { mutate: sendResetEmail, isLoading } = useRequestPasswordReset()
+  async function handleSubmit(e: any) {
     e.preventDefault();
+    sendResetEmail(email)
   }
 
   return (
-    <PageContainer title="BZ E-commerce - Reset Password">
+    <PageContainer title="BZ E-commerce - Reset Password" description={""}>
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <h3 className="formTitle">Reset Password</h3>
@@ -33,11 +35,11 @@ export default function Login() {
               type="email"
               name="email"
               placeholder="Email"
-              onChange={(value) => setEmail(value)}
+              handleChange={(value) => setEmail(value)}
               value={email}
             />
 
-            <Button type="submit" title="Send Email" />
+            <Button disabled={isLoading || !email} type="submit" title="Send Email" />
           </InputContainer>
         </form>
 

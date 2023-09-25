@@ -15,6 +15,7 @@ type Store = {
   toggleCart: (item: CartItem) => void;
   IncreaseQt: (id: string) => void;
   decreaseQt: (id: string) => void;
+  resetCart: () => void;
 };
 export const useStoreState = create<Store>((set) => ({
   user: undefined,
@@ -49,4 +50,5 @@ export const useStoreState = create<Store>((set) => ({
       );
       return { ...state, cart: newCart.filter((item) => item.qt > 0) };
     }),
+  resetCart: () => set((state) => ({ ...state, cart: [] })),
 }));

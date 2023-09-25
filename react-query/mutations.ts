@@ -1,5 +1,11 @@
 import { pb } from '../pocketbase';
-import { SignInRequest, SignUpRequest, UserRecord } from './types';
+import {
+  Order,
+  OrderRecord,
+  SignInRequest,
+  SignUpRequest,
+  UserRecord,
+} from './types';
 
 /**********************************sign up */
 export async function SignUp(data: SignUpRequest) {
@@ -15,13 +21,15 @@ export async function SignwithOAUth2(
   const authData = await pb
     .collection('users')
     .authWithOAuth2<UserRecord>({ provider });
+  return authData.record;
 }
 
 /**********************************sign in */
 export async function SignIn(data: SignInRequest) {
   const authData = await pb
     .collection('users')
-    .authWithPassword(data.email, data.password);
+    .authWithPassword<UserRecord>(data.email, data.password);
+  return authData.record;
 }
 /*************************************** */
 export function initUserFromLocalStorage() {
@@ -35,6 +43,12 @@ export function initUserFromLocalStorage() {
   }
   pb.collection('users').authRefresh();
 }
+/***************************************** */
+export async function RequestPasswordReset(email: string) {
+  const result = await pb.collection('users').requestPasswordReset(email);
+  if (result) return email;
+  return false;
+}
 /**************************************** */
 
 export function SignOut() {
@@ -43,12 +57,27 @@ export function SignOut() {
 
 /************************* wishlist */
 export async function AddToWishlist(prodId: string) {
-  await pb.collection('users').update(pb.authStore.model?.id, {
-    'wishlist+': prodId,
-  });
+  const user = await pb
+    .collection('users')
+    .update<UserRecord>(pb.authStore.model?.id, {
+      'wishlist+': prodId,
+    });
+  return prodId;
 }
 export async function RemoveFromWishlist(prodId: string) {
-  await pb.collection('users').update(pb.authStore.model?.id, {
-    'wishlist-': prodId,
-  });
+  const user = await pb
+    .collection('users')
+    .update<UserRecord>(pb.authStore.model?.id, {
+      'wishlist-': prodId,
+    });
+  return prodId;
+}
+
+/************************** order */
+export async function createOrder(data: Order[]) {
+  return await Promise.all(
+    data.map((item) =>
+      pb.collection('orders').create<OrderRecord>(item, { $autoCancel: false })
+    )
+  );
 }

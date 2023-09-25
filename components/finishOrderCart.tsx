@@ -1,22 +1,59 @@
 import { useMemo, useState } from 'react';
 import { useStoreState } from '../state/store';
+import { useCreateOrder } from '../react-query/mutation_hooks';
+import Input from './form/input';
+import { useRouter } from 'next/router';
 
 export default function FinishOrderCart() {
-  const [finalPrice, setFinalPrice] = useState(0);
-  const cart = useStoreState((store) => store.cart);
+  const router = useRouter()
+  const [phone, setPhone] = useState('')
+  const { cart, resetCart, user } = useStoreState((store) => ({ cart: store.cart, resetCart: store.resetCart, user: store.user }));
   const totalPrice = useMemo(() =>
     cart.reduce((count, item) => Math.round(count + item.product.price * item.qt), 0)
     , [cart]);
   const totalItems = useMemo(() =>
     cart.reduce((count, item) => count + item.qt, 0)
     , [cart]);
+  const { mutate: createOrder, isLoading } = useCreateOrder()
+
+  function handleFinishOrder() {
+
+    createOrder(cart?.map(item => (
+      {
+        user: user?.id,
+        qt: item.qt,
+        product: item.product.id,
+        phone: phone || (user?.phone ?? ""),
+        status: "pending",
+      }
+    )), {
+      onSuccess: () => {
+        resetCart()
+        router.push('/')
+      }
+    })
+
+  }
   return (
     <div className="finishOrder">
       <div className="info">
         <p className="total">Total({totalItems} Item):</p>
         <p className="price">$ {totalPrice}</p>
       </div>
-      <button>Finish Order</button>
+      {!user?.phone &&
+        <div>
+          <Input
+            id='phone'
+            type="phone"
+            name="phone"
+            placeholder="Phone Number"
+            handleChange={(value: string) => setPhone(value)}
+            value={phone ?? user?.phone}
+          />
+        </div>
+      }
+
+      <button onClick={handleFinishOrder}>Finish Order</button>
 
       <style jsx>{`
         .finishOrder {

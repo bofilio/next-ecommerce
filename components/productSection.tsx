@@ -35,7 +35,7 @@ export default function ProductSection(props: Props) {
         }
         @media (max-width: 900px) {
           #product .main {
-            padding-left: 0;
+            padding-left: 0px;
           }
         }
       `}</style>
